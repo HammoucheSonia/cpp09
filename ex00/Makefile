@@ -3,7 +3,7 @@ OBJS		= objs
 
 SRCS		= main.cpp BitcoinExchange.cpp
 
-CC			= g++
+CC			= c++ -g
 CFLAGS		= -Wall -Wextra -Werror -std=c++98
 
 
