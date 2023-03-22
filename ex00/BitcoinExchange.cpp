@@ -80,8 +80,10 @@ void btc :: first_function()
         while(getline(monFlux,ligne))
         {
             std::vector<std::string> inputs = split(ligne, '-');
+            if(inputs.size() != 3)
+                break;
             if (atoi(inputs[0].c_str()) < 2009 )
-                std :: cout << "fausse date" << std :: endl;
+                std :: cout << "Cette date precede la premiere date" << std :: endl;
             else if (atoi(inputs[1].c_str()) > 12 )
                 std :: cout  << "fausse date" << std :: endl;
             else if (atoi(inputs[2].c_str()) > 31)
