@@ -17,6 +17,25 @@ int deux_operateurs(char *str)
     return (1);
 }
 
+int is_operateur(char c)
+{
+    if (c == '/' || c == '*' || c == '-' || c == '-')
+        return (1);
+    return (0);
+}
+
+int deux_suivent(char *str)
+{
+    int i = 0;
+    while (str[i])
+    {
+        if (is_operateur(str[i]) && str[i+1])
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
 std :: stack<char> first_function(const char *str)
 {
     std :: stack<char> calcul;
@@ -37,6 +56,7 @@ int polonaise(const char *str)
     int i = 0;
     int j = 0;
 
+    char opt;
     i = ms.top()-'0';
     ms.pop();
     j = ms.top()-'0';
@@ -47,8 +67,9 @@ int polonaise(const char *str)
 	{
 		i = ms.top()-'0';
         ms.pop();
-        sum1 = le_calcul(sum1, i, ms.top());
+        opt = ms.top();
         ms.pop();
+        sum1 = le_calcul(sum1, i, opt);
 	}
     return (sum1);
 }
