@@ -1,6 +1,7 @@
 #include "BitcoinExchange.hpp"
 #include <stdlib.h>
 #include <cstring>
+#include <errno.h>
 #define INT_MAX 2147483647
 
 btc :: btc(std::vector<std::string> tokens, std::string input)
@@ -41,12 +42,14 @@ static int charinstr(const char *str, char c)
     return (0);
 }
 
+
+
 int btc :: egalite(std :: string token, std :: string input)
 {
     std::vector<std::string> tokens = split(token, '-');
     std::vector<std::string> inputs = split(input, '-');
     int i = 0;
-    if (tokens.size() == 3 && inputs.size() == 3)
+    if (tokens.size() == 3)
     {
         if (tokens[0]== inputs[0])
             i++;
@@ -63,6 +66,8 @@ int btc :: egalite(std :: string token, std :: string input)
     return (0);
 
 }
+
+
 void btc :: first_function()
 {
     int i = 0;
@@ -74,7 +79,14 @@ void btc :: first_function()
         getline(monFlux,ligne);
         while(getline(monFlux,ligne))
         {
-            if (!charinstr(ligne.c_str(),'|'))
+            std::vector<std::string> inputs = split(ligne, '-');
+            if (atoi(inputs[0].c_str()) < 2009 )
+                std :: cout << "fausse date" << std :: endl;
+            else if (atoi(inputs[1].c_str()) > 12 )
+                std :: cout  << "fausse date" << std :: endl;
+            else if (atoi(inputs[2].c_str()) > 31)
+                std ::cout << "fausse date" << std :: endl;
+            else if (!charinstr(ligne.c_str(),'|'))
                 std :: cout << "Error: bad input => "<< ligne << std :: endl;
             else if (ligne[13] == '-')
                 std :: cout << "Error: not a positive number." << std :: endl;
@@ -90,13 +102,15 @@ void btc :: first_function()
                         {
                             std :: cout << ligne.substr(0, 10) <<  " => " << atof(&ligne[12]) << \
                             " = " << atof(tokens[i+1].c_str()) * atof(&ligne[12]) << std :: endl;
-                            break;
+                            i = 0;
+                                break;
                         }
                         else if (egalite(this->tokens[i], ligne.substr(0, 10)) == -1)
                         {
                             std :: cout << ligne.substr(0, 10) <<  " => " <<  atof(&ligne[12]) << \
-                            " = " << atof(tokens[i-1].c_str()) * atof(&ligne[12]) << std :: endl; 
-                            break;
+                            " = " << atof(tokens[i-1].c_str()) * atof(&ligne[12]) << std :: endl;
+                            i = 0;
+                                break;
                         }
                     }
                     i++;
